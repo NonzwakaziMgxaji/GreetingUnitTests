@@ -1,28 +1,13 @@
-function greetFactory() {
-    var namesGreeted = {};
-    var counter = 0;
+function greetFactory(existingNames) {
 
-    function setNameGreeted(nameEntered){
-        namesGreeted = nameEntered;
-    }
+    var namesGreeted = existingNames || {};
 
-    function getNameGreeted(){
-        return namesGreeted;
-    }
-
-    function getCounter(){
-        return counter;
+    function getCounter() {
+        var names = Object.keys(namesGreeted)
+        return names.length;
     }
 
     function setGreeting(name, checkedRadioBtn) {
-        if (namesGreeted[name] === undefined) {
-            namesGreeted[name] = 0;
-            counter++;
-        } else{
-            namesGreeted[name]++;
-        }
-
-
         if (checkedRadioBtn === "english") {
             return "Hello, " + name;
         }
@@ -33,11 +18,25 @@ function greetFactory() {
             return "Molo, " + name;
         }
     }
-    
+
+    function nameVal(name) {
+        name = name.toLowerCase();
+
+        if (namesGreeted[name] === undefined) {
+            namesGreeted[name] = 0;
+        } else {
+            namesGreeted[name]++;
+        }
+    }
+
+    function getNameGreeted() {
+        return namesGreeted;
+    }
+
     return {
-        setNameGreeted,
         getNameGreeted,
         setGreeting,
         getCounter,
+        nameVal,
     }
 }

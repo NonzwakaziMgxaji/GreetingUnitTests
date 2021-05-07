@@ -1,11 +1,13 @@
 describe("The greeting factory function" , function(){
-    it("should take in a user's name" , function(){
+    it("should count names in the local storage" , function(){
         let greeting = greetFactory();
-        greeting.setNameGreeted("Nzwakie");
-        assert.equal("Nzwakie" ,greeting.getNameGreeted());
-        let greeting2 = greetFactory();
-        greeting2.setNameGreeted("Yonela");
-        assert.equal("Yonela" ,greeting2.getNameGreeted());
+        greeting.nameVal("Nzwakie");
+        greeting.nameVal("Buhle");
+        greeting.nameVal("Vhonani");
+        greeting.nameVal("Cinga");
+        greeting.nameVal("Jodie");
+        greeting.nameVal("Onele");
+        assert.equal(6, greeting.getCounter());
     });
 
     it("should take in a user's language selected(English) and greet the person in that language when greet button is clicked" , function(){
@@ -23,26 +25,17 @@ describe("The greeting factory function" , function(){
         assert.equal("Molo, Linamandla" ,greeting.setGreeting("Linamandla", "isixhosa"));
     });
 
-    it("should count the number of people greeted from the local storage" , function(){
+    it("should check whether the name is already in the local storage and stop incrementing the counter if it is there" , function(){
         let greeting = greetFactory();
-        greeting.setGreeting("Nzwakie", "english");
-        greeting.setGreeting("Buhle", "isixhosa");
-        assert.equal(2 ,greeting.getCounter());
-
-        let greeting2 = greetFactory();
-        greeting2.setGreeting("Nzwakie", "english");
-        greeting2.setGreeting("Buhle", "isixhosa");
-        greeting2.setGreeting("Vhonani", "english");
-        greeting2.setGreeting("Cinga", "isixhosa");
-        greeting2.setGreeting("Jodie", "afrikaans");
-        greeting2.setGreeting("Onele", "isixhosa");
-        assert.equal(6 ,greeting2.getCounter());
+        greeting.nameVal("Nzwakie");
+        greeting.nameVal("Nzwakie");
+        assert.equal(1, greeting.getCounter());
     });
 
-    it("should stop incrementing counter if name has already been greeted" , function(){
+    it("should get the names greeted in local storage" , function(){
         let greeting = greetFactory();
-        greeting.setGreeting("Nzwakie", "english");
-        greeting.setGreeting("Nzwakie", "english");
-        assert.equal(1 ,greeting.getCounter());
+        greeting.nameVal("Nzwakie");
+        greeting.nameVal("Linamandla");
+        assert.deepEqual({ nzwakie: 0, linamandla: 0 },greeting.getNameGreeted());
     });
 });
